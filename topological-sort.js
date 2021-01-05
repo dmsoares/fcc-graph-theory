@@ -14,23 +14,27 @@ const adjList = {
   M: [],
 };
 
-const orderedNodes = [];
-const visited = {};
+const topSort = (adjList) => {
+  const orderedNodes = [];
+  const visited = {};
 
-const topSort = (node, list = adjList) => {
-  if (node in visited) return;
-  visited[node] = true;
+  const dfs = (node, list = adjList) => {
+    if (node in visited) return;
+    visited[node] = true;
 
-  for (const child of list[node]) {
-    topSort(child);
+    for (const child of list[node]) {
+      dfs(child);
+    }
+
+    orderedNodes.unshift(node);
+  };
+
+  while (orderedNodes.length !== Object.keys(adjList).length) {
+    for (const key in adjList) {
+      if (!(key in visited)) dfs(key);
+    }
   }
 
-  orderedNodes.unshift(node);
+  return orderedNodes;
 };
-
-while (orderedNodes.length !== Object.keys(adjList).length) {
-  for (const key in adjList) {
-    if (!(key in visited)) topSort(key);
-  }
-}
-console.log(orderedNodes);
+console.log(topSort(adjList));
