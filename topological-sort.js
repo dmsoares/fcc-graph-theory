@@ -29,10 +29,8 @@ const topSort = (adjList) => {
     orderedNodes.unshift(node);
   };
 
-  while (orderedNodes.length !== Object.keys(adjList).length) {
-    for (const key in adjList) {
-      if (!(key in visited)) dfs(key);
-    }
+  for (const key in adjList) {
+    dfs(key);
   }
 
   return orderedNodes;
